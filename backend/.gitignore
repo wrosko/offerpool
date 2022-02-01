@@ -23,3 +23,6 @@ yarn-debug.log*
 yarn-error.log*
 
 /orbitdb
+/database-data
+/ipfs_data
+/ipfs_staging

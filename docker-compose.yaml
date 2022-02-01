@@ -1,0 +1,38 @@
+version: '3'
+services:
+  database:
+    image: "postgres:14-alpine"
+    environment:
+      POSTGRES_USER: 'postgres'
+      POSTGRES_PASSWORD: 'mysecretpassword'
+      POSTGRES_DB: 'postgres'
+    volumes:
+      - ./backend/database-data:/var/lib/postgresql/data/ # persist data even if container shuts down
+    ports:
+      - "5433:5432"
+  ipfs:
+    image: "ipfs/go-ipfs"
+    volumes:
+      - ./backend/ipfs_staging:/export
+      - ./backend/ipfs_data:/data/ipfs
+    ports:
+      - "4001:4001"
+      - "4001:4001/udp"
+      - "5001:5001"
+    command: ["daemon", "--migrate=true", "--agent-version-suffix=docker", "--enable-pubsub-experiment"]
+  node-app:
+    build:
+      context: ./
+      dockerfile: ./Dockerfile.node
+    volumes:
+      - ./:/usr/src/app/
+      - ${CHIA_SSL_DIR}:${CHIA_SSL_DIR}
+    ports:
+      - "3000:3000"
+      # - "postgres://db:5432"
+    links:
+      - postgres
+volumes:
+  database-data:
+  ipfs_staging:
+  ipfs_data: 
