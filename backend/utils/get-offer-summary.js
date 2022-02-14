@@ -2,7 +2,10 @@ const fs = require("fs");
 const path = require("path");
 const https = require("https");
 const fetch = import("node-fetch");
-
+console.log('#########################YEEEEET')
+console.log(process.env.PGHOST)
+console.log(process.env.PGSCHEMA)
+console.log('#########################YEEEEET')
 const options = {
   cert: fs.readFileSync(
     path.resolve(process.env.CHIA_SSL_DIR, "./private_wallet.crt"),
